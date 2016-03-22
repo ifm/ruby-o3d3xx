@@ -23,7 +23,7 @@ Or install it yourself as:
 
 ## Usage
 
-## PCIC Client
+### PCIC Client
 The PCIC is the propritary process interface which is based on TC/IP
 
 ```
@@ -32,6 +32,24 @@ pcic.connect('172.25.125.26','50010')
 pcic.transfer('p0')
 pcic.async_trigger()
 ```
+
+### Firmware Update
+
+This assumes the device is already bootet in swupdate mode
+
+```
+o3d3xx-fwupdate.rb -f ~/Downloads/Goldeneye_1.5.205-unstable.swu -I 172.25.125.26 -r
+```
+The possible command line options are:
+```
+Usage: o3d3xx-fwupdate.rb [options]
+    -f, --file SWU-IMG               Image file to upload
+    -r, --reboot                     Force reboot to productive mode after all other action
+    -I, --ip-addr IP-ADDR            Set TCP/IP address of target
+    -p, --start-productive           Start productive system only without uploading file
+    -h, --help                       Display this help message
+```
+
 
 ## Contributors
 
