@@ -71,7 +71,7 @@ module O3D3XX
       request.body = File.read(filename)
       begin
         http.request(request) { |response|
-          break if response.code ==  200
+          break
         }
         res = true
       rescue Errno::ECONNRESET
