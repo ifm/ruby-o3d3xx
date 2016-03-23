@@ -97,8 +97,10 @@ rv = 0
 
 if options[:file]
   if swupdate.read_status_empty()
-    print "Uploading swu image #{options[:file]} ..."
-    swupdate.upload_file(options[:file])
+    print "Uploading swu image #{options[:file]} ... "
+    exit(1) unless swupdate.upload_file(options[:file])
+    puts ' OK'
+    print "Installing image ... "
     if swupdate.wait_for_status(O3D3XX::Swupdate::UPLOAD_SUCCESS, 60)
       puts ' OK'
       rv = 0

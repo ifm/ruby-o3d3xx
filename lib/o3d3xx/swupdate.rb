@@ -45,6 +45,11 @@ module O3D3XX
       @base_uri = "http://#{@config[:host]}:#{@config[:port]}"
     end
 
+    # Print out an error message when an error was raised
+    def not_in_swupdate?()
+      puts 'FAILED'
+      puts 'Device not in SWUPDATE mode?'
+    end
     # Uploads a file to swupdate system. So far this file has
     # to be a swu image file.
     # This call is asynchronous to the following installation
@@ -54,15 +59,28 @@ module O3D3XX
     # @param filename   filename of swu image to install on target
     #
     def upload_file(filename)
+      res = false
       raise 'Invalid file name given !' unless File.exist?(filename)
       uri = URI.parse("#{@base_uri}/handle_post_request")
       http = Net::HTTP.new(uri.host, uri.port)
-      request = Net::HTTP::Post.new(uri.request_uri)
+      header = {
+        'Content-Type'=> 'application/octet-stream',
+        'X_FILENAME'=> "#{File.basename(filename)}",
+      }
+      request = Net::HTTP::Post.new(uri.request_uri,header)
       request.body = File.read(filename)
-      request['Content-Type'] = 'application/octet-stream'
-      request['Connection'] = 'keep-alive'
-      request['X_FILENAME'] = "#{File.basename(filename)}"
-      http.request(request)
+      begin
+        http.request(request) { |response|
+          break if response.code ==  200
+        }
+        res = true
+      rescue Errno::ECONNRESET
+        not_in_swupdate?
+      rescue Errno::ECONNREFUSED
+        not_in_swupdate?
+      end
+
+      res
     end
 
     # Reads status queue empty on http server, i.e.
