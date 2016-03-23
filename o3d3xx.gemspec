@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = O3D3XX::VERSION
   spec.authors       = ["Christian Ege"]
   spec.email         = ["k4230r6@gmail.com"]
-  spec.description   = "Ruby interface for ifm efector O3d3xx"
+  spec.description   = "Ruby interface for ifm efector O3d3xx is a combination of the access libraries and some executables"
   spec.summary       = "Ruby interface for ifm efector O3d3xx"
   spec.homepage      = "https://github.com/graugans/ruby-o3d3xx"
   spec.license       = "MIT"
@@ -19,6 +19,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.3"
-  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rake", "~> 10"
   spec.required_ruby_version = ">= 1.9.3"
 end
